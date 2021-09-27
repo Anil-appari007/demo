@@ -1,0 +1,29 @@
+node {
+
+   
+
+   stage("Code Pull from Gitlab"){
+
+       git credentialsId: 'gitlab_cred', url: 'https://gitlab.com/anil_teamdevops/ecom.git'
+
+   }
+
+  
+
+
+
+   stage("Code Build"){
+
+       bat "\"${tool 'msbuild'}\" EcommerceAngular/EcommerceAngular.csproj /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release  /p:DeleteExistingFiles=True /p:publishUrl=E:\\angular"
+
+   }   
+
+  
+
+ stage("Build Api"){
+
+       bat "\"${tool 'msbuild'}\" EcommerceAPI/EcommerceAPI.csproj /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release  /p:DeleteExistingFiles=True /p:publishUrl=E:\\angular\\api"
+
+   }
+
+}
